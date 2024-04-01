@@ -1,10 +1,9 @@
 <template>
     <div class="my-main-bags">
-        <div class="my-main-bag">
+        <div class="my-main-bag my-main-bag-1">
             <span>Bank Holdings</span>
             <BagDisplay :bag="bankBagForView" :gameState="gameState"></BagDisplay>            
         </div>
-        <br/>
         <div class="my-main-bag">
             <span>Uncle Penny Bag's Loose Change</span>
             <BagDisplay :bag="uncleBagForView" :gameState="gameState"></BagDisplay>
@@ -45,5 +44,8 @@ export default{
     margin: 10px;
     border-radius: 4px;
     background-color: rgb(241, 136, 107);    
+}
+.my-main-bag-1{
+    margin-bottom: 1px;
 }
 </style>

@@ -80,9 +80,6 @@ export default {
 .my-tile.my-tile-selected{
     border: 2px solid blue;
 }
-.func-flex-grow{
-    flex: 1;
-}
 .my-tile-title{
     font-weight: bold; 
     margin:-7px; 

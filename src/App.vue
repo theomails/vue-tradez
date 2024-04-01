@@ -42,4 +42,7 @@ button{
   cursor: pointer;
   padding: 5px 10px;
 }
+.func-flex-grow{
+    flex: 1;
+}
 </style>

@@ -27,6 +27,7 @@
 import TileStrip from './TileStrip.vue';
 import CenterPanels from './CenterPanels.vue';
 import data from "@/data.js";
+import money from "@/money.js";
 
 export default {
     data(){
@@ -41,7 +42,10 @@ export default {
                     {id:101, name: "Theo", color: "red"}
                 ],
                 selectedPlayer: {id:101, name: "Theo", color: "red"},
-                selectedTile: data.getAllTiles()[3]
+                selectedTile: data.getAllTiles()[3],
+                bankMoneyBag: money.getDefaultBankMoneyBag(),
+                uncleMoneyBag: {},
+                messages: [ 'Text1', 'Text2' ]
             }
         };
     },

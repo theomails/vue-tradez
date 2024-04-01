@@ -2,11 +2,13 @@
     <div class="my-center-panels">
         <div class="my-center-left">
             <PlayersDisplay :gameState="gameState"></PlayersDisplay>
-            <TileDisplay :gameState="gameState"></TileDisplay>
-            <ChanceDisplay :gameState="gameState"></ChanceDisplay>
+            <MainBagsDisplay :gameState="gameState"></MainBagsDisplay>
+            <TransferDisplay :gameState="gameState"></TransferDisplay>
         </div>
         <div class="my-center-right">
-            <MainBagsDisplay :gameState="gameState"></MainBagsDisplay>
+            <TileDisplay :gameState="gameState"></TileDisplay>
+            <ChanceDisplay :gameState="gameState"></ChanceDisplay>
+            <MessagesDisplay class="func-flex-grow" :gameState="gameState"></MessagesDisplay>
         </div>
     </div>
 </template>
@@ -15,6 +17,8 @@ import PlayersDisplay from './PlayersDisplay.vue';
 import TileDisplay from './TileDisplay.vue';
 import ChanceDisplay from './ChanceDisplay.vue';
 import MainBagsDisplay from './MainBagsDisplay.vue';
+import TransferDisplay from './TransferDisplay.vue';
+import MessagesDisplay from './MessagesDisplay.vue';
 
 export default{
     props: ["gameState"],
@@ -22,7 +26,9 @@ export default{
         PlayersDisplay, 
         TileDisplay,
         ChanceDisplay,
-        MainBagsDisplay
+        MainBagsDisplay,
+        TransferDisplay,
+        MessagesDisplay
     }
 }
 </script>
@@ -30,13 +36,15 @@ export default{
 .my-center-panels{
     display: flex;
     height: calc(100% - 15px);
-    margin: 10px;
+    margin: 0px;
     padding: 5px;
-    border-radius: 5px;
-    background-image: linear-gradient(to bottom right, #f1be8099, #d4842299)
 }
 .my-center-panels > div{
     flex:1;
     height: 100%;
+}
+.my-center-right{
+    display: flex;
+    flex-direction: column;
 }
 </style>

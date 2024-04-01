@@ -1,8 +1,8 @@
 <template>
     <div class="my-chance-display">
-        <p><b>Chance</b></p>
         <div class="my-chance-base">
-            <span>Available chance cards #{{ gameState.availableChanceCards.length }}</span>
+            <span class="my-chance-title"><b>Chance</b></span>
+            <span class="func-flex-grow">Available chance cards #{{ gameState.availableChanceCards.length }}</span>
             <button>Pick a Card</button>
         </div>
         <div class="my-chance-current" v-if="gameState.selectedChanceCard">
@@ -28,6 +28,9 @@ export default{
 
     display: flex;
     flex-direction: column;
+}
+.my-chance-title{
+    margin-right: 20px;
 }
 .my-chance-base{
     display: flex;
