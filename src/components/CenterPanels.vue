@@ -2,13 +2,14 @@
     <div class="my-center-panels">
         <div class="my-center-left">
             <PlayersDisplay :gameState="gameState"></PlayersDisplay>
-            <MainBagsDisplay :gameState="gameState"></MainBagsDisplay>
-            <TransferDisplay :gameState="gameState"></TransferDisplay>
+            <ChanceDisplay :gameState="gameState"></ChanceDisplay>
+            <MessagesDisplay class="func-flex-grow" :gameState="gameState"></MessagesDisplay>
+            
         </div>
         <div class="my-center-right">
             <TileDisplay :gameState="gameState"></TileDisplay>
-            <ChanceDisplay :gameState="gameState"></ChanceDisplay>
-            <MessagesDisplay class="func-flex-grow" :gameState="gameState"></MessagesDisplay>
+            <MainBagsDisplay :gameState="gameState"></MainBagsDisplay>
+            <TransferDisplay :gameState="gameState"></TransferDisplay>
         </div>
     </div>
 </template>
@@ -36,12 +37,20 @@ export default{
 .my-center-panels{
     display: flex;
     height: calc(100% - 15px);
-    margin: 0px;
+    margin: 10px;
+    margin-bottom: 0px;
     padding: 5px;
+    
 }
 .my-center-panels > div{
     flex:1;
     height: 100%;
+}
+.my-center-panels > div > div{
+    background-color: rgba(242, 220, 178, 1) !important;
+}
+.my-center-panels > div > div {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .my-center-right{
     display: flex;

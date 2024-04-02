@@ -29,7 +29,7 @@ html, body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  background-color: rgb(255, 231, 199);
+  background-image: linear-gradient(-22deg, rgb(247, 167, 143), rgb(253, 235, 130));
   margin: 0;
   padding: 0;
   font-size: 0.9em;
