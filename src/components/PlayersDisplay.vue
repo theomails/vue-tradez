@@ -21,17 +21,19 @@
         </div>
 
         <div class="my-player-holdings">
-            <span>{{ gameState.selectedPlayer.name }}'s holdings:</span>
+            <span>{{ gameState.selectedPlayer.name }}'s moneys:</span>
             <BagDisplay :bag="gameState.selectedPlayer.moneyBag"></BagDisplay>
+            <PropertyDisplay :player="this.gameState.selectedPlayer" :gameState="gameState" :gameData="gameData"></PropertyDisplay>
         </div>
     </div>
 </template>
 <script>
 import {eventBus} from '@/main.js'
 import BagDisplay from './BagDisplay.vue';
+import PropertyDisplay from './PropertyDisplay.vue';
 
 export default{
-    props: ["gameState"],
+    props: ["gameState", "gameData"],
     methods:{
         onPlayerClick(player){
             eventBus.$emit('playerClicked', player);
@@ -47,7 +49,8 @@ export default{
         }
     },
     components:{
-        BagDisplay
+        BagDisplay,
+        PropertyDisplay
     }
 }
 </script>
@@ -68,10 +71,12 @@ export default{
     padding: 10px;
 }
 .my-player-in-list{
+    font-size: 1.2em;
     padding: 5px 10px;
     border: 1px solid #eee;
     margin: 0px 10px;
     cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 .my-player-roll{
     flex: 1;

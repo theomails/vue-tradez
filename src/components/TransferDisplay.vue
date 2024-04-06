@@ -10,17 +10,20 @@
             </select>
         </div>
         <div class="my-transfer-ops">
-            <OpsEditor :bagWrapper="getWrapperForBagId(fromBagId)" :neatOps="getNeatOps(fromOps)"></OpsEditor>
-            <OpsEditor :bagWrapper="getWrapperForBagId(toBagId)" :neatOps="getNeatOps(toOps)"></OpsEditor>
+            <OpsEditor :bagWrapper="getWrapperForBagId(fromBagId)" :neatOps="getNeatOps(fromOps)"
+                @increment="perform('from', 'increment', $event)" @decrement="perform('from', 'decrement', $event)"></OpsEditor>
+            <OpsEditor :bagWrapper="getWrapperForBagId(toBagId)" :neatOps="getNeatOps(toOps)"
+                @increment="perform('to', 'increment', $event)" @decrement="perform('to', 'decrement', $event)"></OpsEditor>
         </div>
         <div class="my-transfer-footer">
-            {{ transferSummaryText }}
-            <button>Trasnfer</button>
+            Transfering {{ transferSummaryText }}
+            <button @click="onTransferClick">Transfer</button>
         </div>
     </div>
 </template>
 <script>
-import money from '@/money.js'
+import money from '@/money.js';
+import {eventBus} from '@/main.js';
 import OpsEditor from './OpsEditor.vue';
 
 export default {
@@ -38,9 +41,14 @@ export default {
         this.toBagId = 'bank';
     },
     methods:{
+        perform(source, action, denom){
+            this.changeOpsBag(denom, action, source);
+        }, 
         changeOpsBag(denom, incOrDec, opsFromOrTo){
             var ops = (opsFromOrTo=='from'?this.fromOps:this.toOps) || {};
-            ops[denom] = (ops[denom] || 0) + (incOrDec=='inc'?1:-1);
+            ops = JSON.parse(JSON.stringify(ops));
+            ops[denom] = (ops[denom] || 0) + (incOrDec=='increment'?1:-1);
+            ops[denom] = ops[denom]<0?0:ops[denom];
             if(opsFromOrTo=='from'){
                 this.fromOps = ops;
             }else if(opsFromOrTo=='to'){
@@ -62,30 +70,44 @@ export default {
                 sum += denom * ops[denom];
             });
             return sum;
+        },
+        onTransferClick(){
+            eventBus.$emit('transferClicked', 
+                this.getWrapperForBagId(this.fromBagId), this.getWrapperForBagId(this.toBagId), 
+                this.fromOps, this.toOps,
+                this.transferSummaryText);
+            this.fromOps = {};
+            this.toOps = {};
+        }
+    },
+    watch:{
+        'gameState.selectedPlayer'(){
+            this.fromBagId = 'player-' + this.gameState.selectedPlayer.id;
+            this.toBagId = 'bank';
         }
     },
     computed:{
         transferSummaryText(){
             var fromAmt = this.getTotal(this.fromOps);
             var toAmt = this.getTotal(this.toOps);
-            var netAmount = fromAmt = toAmt;
+            var netAmount = fromAmt - toAmt;
             var fromName = this.getWrapperForBagId(this.fromBagId)?.name;
             var toName = this.getWrapperForBagId(this.toBagId)?.name;
-            if(fromAmt > toAmt){
+            if(toAmt > fromAmt){
                 var tmpAmount = fromAmt;
                 fromAmt = toAmt;
                 toAmt = tmpAmount;
-                netAmount = fromAmt = toAmt;
+                netAmount = fromAmt - toAmt;
                 var tmpName = fromName;
                 fromName = toName;
                 toName = tmpName;
             }
-            return `Transfering $${netAmount} from ${fromName} to ${toName}`;
+            return `$${netAmount} from ${fromName} to ${toName}`;
         },
         bagOptions(){
             var bagOptions = [];
             this.gameState.players.forEach(player => {
-                bagOptions.push({type: 'player', bag: player.moneyBag, id: `player-${player.id}`, name: `${player.name} [Player]`});
+                bagOptions.push({type: 'player', bag: player.moneyBag, id: `player-${player.id}`, name: `${player.name} [Player]`, playerId: player.id});
             });
             bagOptions.push({type: 'bank', bag: this.gameState.bankMoneyBag, id: 'bank', name: "BANK"});
             bagOptions.push({type: 'uncle', bag: this.gameState.uncleMoneyBag, id: 'uncle', name: "Uncle Penny Bag's Loose Change"});

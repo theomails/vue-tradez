@@ -1,4 +1,4 @@
-function getChoiceOptions(){
+function getChanceOptions(){
     var chanceOptions = [
         "Free Ticket Booth Purple",
         "Free Ticket Booth Purple",
@@ -299,4 +299,4 @@ function getAllTiles(){
       ];
 }
 
-export default {getChoiceOptions, getAllTiles}
+export default {getChanceOptions, getAllTiles}

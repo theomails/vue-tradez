@@ -3,7 +3,7 @@
         <span v-for="(num, denom) in bagForView" :key="denom">
             {{ `[\$${denom} x ${num}] ` }}
         </span>
-        <span> :: Total: {{ bagTotal }}</span>
+        <span> :: Total: ${{ bagTotal }}</span>
     </div>
 </template>
 <script>

@@ -2,17 +2,29 @@
     <div class="my-tile-expanded">
         <Tile :tile="gameState.selectedTile" :gameState="gameState" mode="display"></Tile>
         <div class="my-tile-expanded-actions">
-            <button>Jump Here</button>
-            <button :disabled="!gameState.selectedTile.buyable">Buy</button>
-            <button>Add Booth</button>
+            <button @click="onJumpHereClick">Jump Here</button>
+            <button :disabled="!gameState.selectedTile.buyable" @click="onBuyTileClick">Buy</button>
+            <button :disabled="!gameState.selectedTile.buyable" @click="onAddBoothClick">Add Booth</button>
         </div>
     </div>
 </template>
 <script>
 import Tile from './Tile.vue';
+import {eventBus} from '@/main.js';
 
 export default{
     props: ["gameState"],
+    methods:{
+        onJumpHereClick(){
+            eventBus.$emit('jumpHereClicked');
+        },
+        onBuyTileClick(){
+            eventBus.$emit('buyTileClicked');
+        },
+        onAddBoothClick(){
+            eventBus.$emit('addBoothClicked');
+        }
+    },
     components:{
         Tile
     }
@@ -33,9 +45,8 @@ export default{
     flex-direction: column;
     justify-content: space-evenly;
 }
-
 .my-tile-expanded > .my-tile{
-    min-width: 130px;
+    width: 130px;
     min-height: 110px;
 }
 </style>

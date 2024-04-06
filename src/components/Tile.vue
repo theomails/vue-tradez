@@ -2,9 +2,17 @@
     <div class="my-tile" :class="{'my-tile-selected':isThisTileSelected}" @click="onTileClick()">
         <div class="my-tile-title" 
             :style="{backgroundColor: getBgColor(tile.color), color: getTextColor(tile.color)}"
-            :title="tile.color">{{ tile.name }}</div>
+            :title="tile.color"><b>{{ tile.name }}</b>
+            <div v-if="thisTileOwnerName || thisTileBoothsCount">
+                <span>{{ thisTileOwnerName }}</span>&nbsp;
+                <span v-if="thisTileBoothsCount">Booths: {{ thisTileBoothsCount }}</span>
+            </div>
+        </div>
         <div v-if="tile.buyable">
             Cost: ${{ parseInt(tile.priceOrCharge) }}
+        </div>
+        <div class="my-tile-desc">
+            {{ tile.description }}
         </div>
         <div class="my-tile-spacer func-flex-grow"></div>
         <div class="my-tile-players" v-if="mode == 'strip'" >
@@ -16,7 +24,6 @@
         </div>
         <div v-if="tile.buyable">
             Base Rent: ${{ parseInt(tile.baseRent) }}
-            {{ (thisTileBoothsCount>0)?(thisTileBoothsCount + ' Booths'):'' }}
         </div>
     </div>
 </template>
@@ -63,7 +70,7 @@ export default {
             return selectedTileId && (selectedTileId==this.tile?.id);
         },
         playersOnThisTile(){
-            console.log(this.tile?.id);
+            //console.log(this.tile?.id);
             if(!this.tile) return [];
             var playersOnThisTile = [];
             try{
@@ -89,7 +96,17 @@ export default {
         thisTileBoothsCount(){
             if(!this.tile) return 0;
             var tileIdToBoothCountMap = this.gameState?.tileToBoothMap;
-            return tileIdToBoothCountMap?tileIdToBoothCountMap[this.tile?.id] || 0 : 0;
+            return tileIdToBoothCountMap[this.tile?.id];
+        },
+        thisTileOwnerName(){
+            if(!this.tile) return 0;
+            var tileIdToOwnerIdMap = this.gameState?.tileToOwnerMap;
+            var ownerId = tileIdToOwnerIdMap[this.tile.id];
+            if(ownerId){
+                var ownerPlayer = this.gameState.players.find(thisPlayer => { return thisPlayer.id == ownerId });
+                return ownerPlayer?ownerPlayer.name : null;
+            }
+            return null;
         }
     }
 }
@@ -110,10 +127,15 @@ export default {
     border: 2px solid blue;
 }
 .my-tile-title{
-    font-weight: bold; 
     margin:-7px; 
     margin-bottom: 10px; 
     padding: 5px;
+    text-align: center;
+}
+.my-tile-title span{
+    font-size: 0.9em;
+}
+.my-tile-desc{
     text-align: center;
 }
 .my-tile-players{

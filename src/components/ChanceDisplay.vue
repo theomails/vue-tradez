@@ -3,18 +3,27 @@
         <div class="my-chance-base">
             <span class="my-chance-title"><b>Chance</b></span>
             <span class="func-flex-grow">Available chance cards #{{ gameState.availableChanceCards.length }}</span>
-            <button>Pick a Card</button>
+            <button @click="onPickCardClick" :disabled="gameState.selectedChanceCard" >Pick a Card</button>
         </div>
         <div class="my-chance-current" v-if="gameState.selectedChanceCard">
             <span>{{ gameState.selectedChanceCard }}</span>
-            <button>Close</button>
+            <button @click="onCloseCardClick">Close</button>
         </div>
     </div>
 </template>
 <script>
+import {eventBus} from '@/main.js';
 
 export default{
     props: ["gameState"],
+    methods:{
+        onPickCardClick(){
+            eventBus.$emit('pickCardClicked');
+        },
+        onCloseCardClick(){
+            eventBus.$emit('cardCloseClicked');
+        }
+    },
     components:{
     }
 }

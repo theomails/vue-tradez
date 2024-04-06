@@ -35,7 +35,7 @@ export default{
 <style>
 .my-tile-strip{
     display: flex;
-    height: calc(100vh/8 - 3px);
+    height: calc(100vh/7 - 3px);
     margin: 0px;
 }
 .my-tile-strip-vertical{

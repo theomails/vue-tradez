@@ -32,7 +32,7 @@ html, body{
   background-image: linear-gradient(-22deg, rgb(247, 167, 143), rgb(253, 235, 130));
   margin: 0;
   padding: 0;
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 button{
   background-color: white;

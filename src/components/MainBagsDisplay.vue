@@ -1,7 +1,7 @@
 <template>
     <div class="my-main-bags">
         <div class="my-main-bag my-main-bag-1">
-            <span>Bank Holdings</span>
+            <span>Bank's moneys</span>
             <BagDisplay :bag="bankBagForView" :gameState="gameState"></BagDisplay>            
         </div>
         <div class="my-main-bag">

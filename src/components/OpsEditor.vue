@@ -2,7 +2,8 @@
     <div class="my-ops-editor">
         <span><b>{{ bagWrapper?.name }} gives: </b></span>
         <div class="my-ops-denom-row" v-for="(count, denom) in neatOps" :key="denom">
-            ${{ denom }} x <span class="my-op-edit-item"> <button>-</button> {{ count }} <button>+</button> </span> = ${{ denom * count }}
+            ${{ denom }} x <span class="my-op-edit-item"> 
+                <button @click="onDecrClick(denom)">-</button> {{ count }} <button @click="onIncrClick(denom)">+</button> </span> = ${{ denom * count }}
         </div>
     </div>
 </template>
@@ -13,7 +14,19 @@ export default {
         return {};
     },
     methods:{
-        
+        onDecrClick(denom){
+            var nowCount = this.neatOps[denom] || 0;
+            if(nowCount <= 0) return; //Can't go below 0
+
+            this.$emit('decrement', denom);
+        },
+        onIncrClick(denom){
+            var notes = this.bagWrapper.bag[denom] || 0;
+            var nowCount = this.neatOps[denom] || 0;
+            if(nowCount >= notes) return; //Can't exceed
+
+            this.$emit('increment', denom);
+        }
     }
 }
 </script>
