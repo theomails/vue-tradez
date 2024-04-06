@@ -129,6 +129,11 @@ export default {
     border-radius: 4px;
     background-color: rgb(241, 136, 107);    
 }
+.my-transfer-header select{
+    padding: 3px 5px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+}
 .my-transfer-ops{
     display: flex;
 }
