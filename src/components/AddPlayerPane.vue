@@ -7,7 +7,7 @@
             <div class="func-popup-content">
                 <div style="display: inline-block">Please enter the name of the player:</div>
                 <div style="display: inline-block">
-                    <input ref="playerNameTxt" class="my-player-name" type="text" v-model="playerName"/>
+                    &nbsp;<input ref="playerNameTxt" class="my-player-name" type="text" v-model="playerName"/>
                 </div>
                 <br/><br/>
                 <div style="display: inline-block">Pick a color:</div>
@@ -85,6 +85,7 @@ export default{
     padding: 10px;
     border: none;
     border-bottom: 1px solid #ccc;
+    background-color: rgba(250,250,250, 0.6);
     outline: none;
     width: 25vw;
     font-size: 1.4em;

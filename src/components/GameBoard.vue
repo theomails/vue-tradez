@@ -1,6 +1,7 @@
 <template>
     <div class="my-game-board">
         <AddPlayerPane :gameState="gameState"></AddPlayerPane>
+        <TallyPane :gameState="gameState" :gameData="gameData"></TallyPane>
         <div class="my-gb-top">
             <TileStrip direction="horizontal" :gameData="gameData" :gameState="gameState" 
                 :fromTileIdx="16" :toTileIdx="26"></TileStrip>
@@ -28,6 +29,7 @@
 import TileStrip from './TileStrip.vue';
 import CenterPanels from './CenterPanels.vue';
 import AddPlayerPane from './AddPlayerPane.vue';
+import TallyPane from './TallyPane.vue';
 import data from "@/data.js";
 import money from "@/money.js";
 import {eventBus} from '@/main.js';
@@ -168,10 +170,14 @@ export default {
 
         },
         onShowTallyClicked(){
-
+            this.gameState.status = 'SHOW_TALLY';
         },
-        onResetGameClicked(){
-
+        onTallyClosed(){
+            if(this.gameState.players.length < 2){
+                this.gameState.status = 'ADD_PLAYER';
+            }else{
+                this.gameState.status = 'ACTIVE';
+            }
         },
         onPlayerAdded(pname, pcolor){
             var player = {
@@ -198,7 +204,7 @@ export default {
             this.postMessage(`Player ${player.name} added.`);
         },
         onAddPlayerCancelled(){
-            if(this.gameState.players.length < 2){
+            if(this.gameState.players.length >= 2){
                 this.gameState.status = 'ACTIVE';
             }
         },
@@ -223,7 +229,7 @@ export default {
         eventBus.$on('addPlayerClicked', this.onAddPlayerClicked);
         eventBus.$on('startGameClicked', this.onStartGameClicked);
         eventBus.$on('showTallyClicked', this.onShowTallyClicked);
-        eventBus.$on('resetGameClicked', this.onResetGameClicked);
+        eventBus.$on('tallyClosed', this.onTallyClosed);
         eventBus.$on('playerAdded', this.onPlayerAdded);
         eventBus.$on('addPlayerCancelled', this.onAddPlayerCancelled);
 
@@ -232,7 +238,8 @@ export default {
     components:{
         TileStrip,
         CenterPanels,
-        AddPlayerPane
+        AddPlayerPane,
+        TallyPane
     }
 }
 </script>

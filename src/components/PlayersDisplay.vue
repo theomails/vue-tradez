@@ -23,7 +23,7 @@
         <div class="my-player-holdings">
             <span>{{ gameState.selectedPlayer.name }}'s moneys:</span>
             <BagDisplay :bag="gameState.selectedPlayer.moneyBag"></BagDisplay>
-            <PropertyDisplay :player="this.gameState.selectedPlayer" :gameState="gameState" :gameData="gameData"></PropertyDisplay>
+            <PropertyDisplay :player="gameState.selectedPlayer" :gameState="gameState" :gameData="gameData"></PropertyDisplay>
         </div>
     </div>
 </template>

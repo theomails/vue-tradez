@@ -4,7 +4,7 @@
             <span class="func-flex-grow"><b>Game Activity:</b></span>
             <button @click="onAddPlayerClick">Add Player</button>
             <!-- <button @click="onStartGame">Start Game</button> -->
-            <!-- <button @click="onShowTally">Show Tally</button> -->
+            <button @click="onShowTally">Show Tally</button>
             <!-- <button @click="onResetGame">Reset Game</button> -->
         </div>
         <select size="10">
