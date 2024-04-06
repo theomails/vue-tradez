@@ -28,6 +28,7 @@ import TileStrip from './TileStrip.vue';
 import CenterPanels from './CenterPanels.vue';
 import data from "@/data.js";
 import money from "@/money.js";
+import {eventBus} from '@/main.js';
 
 export default {
     data(){
@@ -37,17 +38,61 @@ export default {
             },
             gameState: {
                 availableChanceCards: data.getChoiceOptions(),
-                selectedChanceCard: data.getChoiceOptions()[6],
+                selectedChanceCard: null,
                 players: [
-                    {id:101, name: "Theo", color: "red"}
+                    {id:101, name: "Daddy", color: "#da8"},
+                    {id:102, name: "Rene", color: "#fca"},
+                    {id:103, name: "Ryan", color: "#ebf"}
                 ],
                 selectedPlayer: {id:101, name: "Theo", color: "red"},
-                selectedTile: data.getAllTiles()[3],
+                currentRolledDice: null,
+                selectedTile: data.getAllTiles()[0],
+                playerToTileMap: {},
+                tileToBoothMap: {},
                 bankMoneyBag: money.getDefaultBankMoneyBag(),
                 uncleMoneyBag: {},
                 messages: [ 'Text1', 'Text2' ]
             }
         };
+    },
+    methods:{
+        onPlayerClicked(player){
+            this.gameState.selectedPlayer = player;
+        },
+        onPlayerRollClicked(){
+            this.gameState.currentRolledDice = (Math.floor(Math.random() * 6) + 1);
+        },
+        onPlayerMoveClicked(){
+            //Grab
+            var rolledVal = this.gameState.currentRolledDice;
+            this.gameState.currentRolledDice = null;
+            //Find player id
+            var selPlayerId = this.gameState.selectedPlayer.id;
+            //Find tile
+            var tileIdOfPlayer = this.gameState.playerToTileMap[this.gameState.selectedPlayer.id];
+            var tile = this.gameData.allTiles.find(thisTile => { return thisTile.id == tileIdOfPlayer });
+            var tileIdx = this.gameData.allTiles.indexOf(tile);
+            //Calc next tile idx
+            var nextTileIdx = (tileIdx + rolledVal) % this.gameData.allTiles.length;
+            //Assign values
+            this.gameState.selectedTile = this.gameData.allTiles[nextTileIdx];
+            console.log(this.gameState.selectedTile);
+            var playerToTileMap = JSON.parse(JSON.stringify(this.gameState.playerToTileMap));
+            playerToTileMap[selPlayerId] = this.gameState.selectedTile.id;
+            this.gameState.playerToTileMap = playerToTileMap;
+            console.log(this.gameState.playerToTileMap);
+        }
+    },
+    mounted(){
+        eventBus.$on('playerClicked', this.onPlayerClicked);
+        eventBus.$on('playerRollClicked', this.onPlayerRollClicked);
+        eventBus.$on('playerMoveClicked', this.onPlayerMoveClicked);
+
+        this.gameState.playerToTileMap = {};
+        this.gameState.players.forEach(player => {
+            this.gameState.playerToTileMap[player.id] = this.gameData.allTiles[0].id;
+        });
+        this.gameState.selectedPlayer = this.gameState.players[0];
     },
     components:{
         TileStrip,
@@ -59,7 +104,8 @@ export default {
 .my-game-board{
     width: 100vw;
     height: 100vh;
-    padding: 10px;
+    margin: 0px;
+    padding: 5px;
 
     display:flex;
     flex-direction: column;

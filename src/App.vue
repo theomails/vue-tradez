@@ -42,6 +42,9 @@ button{
   cursor: pointer;
   padding: 5px 10px;
 }
+button :disabled{
+  color: #ddd;
+}
 .func-flex-grow{
     flex: 1;
 }

@@ -1,9 +1,9 @@
 <template>
     <div class="my-tile-expanded">
-        <Tile :tile="gameState.selectedTile" :gameState="gameState"></Tile>
+        <Tile :tile="gameState.selectedTile" :gameState="gameState" mode="display"></Tile>
         <div class="my-tile-expanded-actions">
             <button>Jump Here</button>
-            <button>Buy</button>
+            <button :disabled="!gameState.selectedTile.buyable">Buy</button>
             <button>Add Booth</button>
         </div>
     </div>
@@ -32,5 +32,10 @@ export default{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+}
+
+.my-tile-expanded > .my-tile{
+    min-width: 130px;
+    min-height: 110px;
 }
 </style>

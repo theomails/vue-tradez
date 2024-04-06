@@ -14,9 +14,9 @@
             </div>
 
             <div class="my-player-roll">
-                <button v-if="gameState.selectedPlayer" @click="onRollClick" >Roll dice for {{ gameState.selectedPlayer.name }}</button>
-                <span class="func-flex-grow">{{ gameState.currentRolledDice }}</span>
-                <button>Move!</button>
+                <button v-if="gameState.selectedPlayer" @click="onRollClick" >Roll dice for <b>{{ gameState.selectedPlayer.name }}</b></button>
+                <span class="func-flex-grow my-dice-value">{{ gameState.currentRolledDice }}</span>
+                <button @click="onMoveClick" :disabled="!gameState.currentRolledDice">Move!</button>
             </div>            
         </div>
 
@@ -38,6 +38,9 @@ export default{
         },
         onRollClick(){
             eventBus.$emit('playerRollClicked');
+        },
+        onMoveClick(){
+            eventBus.$emit('playerMoveClicked');
         },
         isSelectedPlayer(aPlayer){
             return aPlayer && this.gameState.selectedPlayer && (aPlayer.id == this.gameState.selectedPlayer.id);
@@ -75,12 +78,15 @@ export default{
     display: inline-flex;
     align-items: center;
 }
+.my-dice-value{
+    padding: 0px 15px;
+}
 .my-player-in-list.my-sel-player{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     font-weight: bold;
 }
 .my-player-holdings{
-    padding: 10px;
+    padding: 5px 10px;
     background-color: rgba(255, 255, 255, 0.35);
 }
 </style>

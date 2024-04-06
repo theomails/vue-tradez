@@ -1,7 +1,7 @@
 <template>
     <div class="my-tile-strip" :class="`my-tile-strip-${direction}`">
         <div class="my-tile-strip-item" v-for="selectedTile in selectedTiles" :key="selectedTile.id">
-            <Tile :tile="selectedTile" :gameState="gameState"></Tile>
+            <Tile :tile="selectedTile" :gameState="gameState" mode="strip"></Tile>
         </div>
     </div>
 </template>
@@ -35,7 +35,8 @@ export default{
 <style>
 .my-tile-strip{
     display: flex;
-    height: calc(100vh/8);
+    height: calc(100vh/8 - 3px);
+    margin: 0px;
 }
 .my-tile-strip-vertical{
     flex-direction: column;
@@ -43,10 +44,13 @@ export default{
     height: 100%;
 }
 .my-tile-strip-vertical > div{
-    margin: 5px 0px; /* Somehow these items alone needed again setting the margin! */
+    margin: 2px 0px; /* Somehow these items alone needed again setting the margin! */
 }
 .my-tile-strip-item{
     flex: 1;
     align-self: stretch;
+}
+.my-tile-strip-horizontal > .my-tile-strip-item{
+    width: 0;
 }
 </style>

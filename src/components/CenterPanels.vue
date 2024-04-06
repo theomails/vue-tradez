@@ -37,6 +37,8 @@ export default{
 .my-center-panels{
     display: flex;
     height: calc(100% - 15px);
+    max-height: calc(100vh * 5.5 / 8);
+    overflow: auto;
     margin: 10px;
     margin-bottom: 0px;
     padding: 5px;
@@ -48,6 +50,7 @@ export default{
 }
 .my-center-panels > div > div{
     background-color: rgba(242, 220, 178, 1) !important;
+    margin: 3px 10px;
 }
 .my-center-panels > div > div {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;

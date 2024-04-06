@@ -49,7 +49,7 @@ export default {
         },
         getWrapperForBagId(bagId){
             if(bagId){
-                return this.bagOptions.filter(bagOption => (bagOption.id == bagId))[0];
+                return this.bagOptions.find(bagOption => (bagOption.id == bagId));
             }
             return null;
         },

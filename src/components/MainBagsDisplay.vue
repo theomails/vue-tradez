@@ -40,7 +40,7 @@ export default{
     background-color: rgba(255, 255, 255, 0.35);
 }
 .my-main-bags{
-    padding: 10px;
+    padding: 5px 10px;
     margin: 10px;
     border-radius: 4px;
     background-color: rgb(241, 136, 107);    
