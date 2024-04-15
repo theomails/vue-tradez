@@ -34,7 +34,7 @@ html, body{
   padding: 0;
   font-size: 0.8em;
 }
-button{
+.my-game-board button{
   background-color: white;
   border: 0px solid #bbb;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -42,7 +42,7 @@ button{
   cursor: pointer;
   padding: 5px 10px;
 }
-button :disabled{
+.my-game-board button:disabled{
   color: #ddd;
 }
 .func-flex-grow{

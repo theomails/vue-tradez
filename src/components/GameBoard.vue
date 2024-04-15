@@ -209,6 +209,18 @@ export default {
             }
         },
         postMessage(msg){
+            if(!msg) return;
+            this.$notify({
+                    message: msg,
+                    type: "info",
+                    top: true,
+                    bottom: false,
+                    left: true,
+                    right: false,
+                    showClose: true,
+                    closeDelay: 4500
+                });
+            
             this.gameState.messages.unshift(msg);
         },
         clone(obj){

@@ -5,10 +5,17 @@
                 Add Player
             </div>
             <div class="func-popup-content">
-                <div style="display: inline-block">Please enter the name of the player:</div>
-                <div style="display: inline-block">
-                    &nbsp;<input ref="playerNameTxt" class="my-player-name" type="text" v-model="playerName"/>
+                <div class="func-flex">
+                    <div >Please enter the name of the player:</div>
+                    <div class="func-flex-grow func-flex-vertical" >
+                        <input ref="playerNameTxt" class="my-player-name" type="text" 
+                                    v-model="playerName" @keypress="playerNameError = ''" @keyup.enter="onAddPlayer" />
+                        <span v-if="playerNameError"  class="func-input-text-error" >
+                            <br/>{{ playerNameError }}
+                        </span>
+                    </div>
                 </div>
+                
                 <br/><br/>
                 <div style="display: inline-block">Pick a color:</div>
                 <div class="my-pcolor-list">
@@ -37,6 +44,7 @@ export default{
     data(){
         return {
             playerName: '',
+            playerNameError: '',
             playerColor: '',
             pastelColors: [
                 "#aaf0d1", // magic mint
@@ -48,17 +56,29 @@ export default{
         };
     },
     mounted(){
-        this.playerColor = this.pastelColors[0];
-        this.$refs.playerNameTxt.focus();
+        var randColorIdx = Math.floor(Math.random() * (this.pastelColors.length));
+        this.playerColor = this.pastelColors[randColorIdx];
+        if(this.$refs.playerNameTxt){
+            this.$refs.playerNameTxt.focus();
+        }
     },
     methods:{
         colorSelected(pcolor){
             this.playerColor = pcolor;
         },
         onAddPlayer(){
+            if(!this.playerName || this.playerName.length <1){
+                this.playerNameError = 'Please enter a player name!';
+                return;
+            }
             eventBus.$emit('playerAdded', this.playerName, this.playerColor);
             this.playerName = '';
             this.playerColor = this.pastelColors[0];
+            this.$nextTick(()=>{
+                if(this.$refs.playerNameTxt){
+                    this.$refs.playerNameTxt.focus();
+                }
+            });
         },
         onCancelAddPlayer(){
             eventBus.$emit('addPlayerCancelled');
@@ -78,16 +98,18 @@ export default{
     left:0px;
     width: 100vw;
     height: 100vh;
+    padding: 0px;
+    margin: 0px;
     background-color: rgba(50,50,50, 0.6);
     z-index: 100;
 }
 .my-player-name{
-    padding: 10px;
+    padding: 5px 10px;
+    margin-left: 10px;
     border: none;
     border-bottom: 1px solid #ccc;
     background-color: rgba(250,250,250, 0.6);
     outline: none;
-    width: 25vw;
     font-size: 1.4em;
 }
 .my-player-name:focus{
@@ -141,5 +163,19 @@ export default{
 .func-popup-action button{
     margin: 0px 10px;
     padding: 10px 15px;
+}
+.func-input-text-error{
+    font-size: 0.8em;
+    color: rgb(205, 17, 46);
+    line-height: 0.8em;
+    margin-left: 10px;
+}
+.func-flex{
+    display: flex;
+    align-items: first baseline;
+}
+.func-flex-vertical{
+    display: flex;
+    flex-direction: column;
 }
 </style>
