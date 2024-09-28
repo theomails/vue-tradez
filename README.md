@@ -5,6 +5,9 @@
 npm install
 ```
 
+Hints:
+  - Use `set NODE_OPTIONS=--openssl-legacy-provider && ` in package.json or `export NODE_OPTIONS=--openssl-legacy-provider` in terminal in case of SSL/certificate issues.
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
